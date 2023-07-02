@@ -12,10 +12,10 @@
 4. Open the app in your web browser by navigating to http://localhost:3000
 
 ## What is this task about
+
 Create a pixel-perfect layout - working with a mockup Figma project.
 Implemented requests to the server to display information about users.
-Implemented work with the form and sending data from this form to the server. 
-
+Implemented work with the form and sending data from this form to the server.
 
 ## Technologies
 

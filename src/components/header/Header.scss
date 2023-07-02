@@ -1,0 +1,34 @@
+@import '../../utils/mixins';
+
+.container {
+  display: flex;
+  justify-content: center;
+  background-color: white;
+}
+
+.header {
+  padding: 13px 16px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+
+  @include onTablet {
+    padding: 13px 32px;
+  }
+
+  @include onDesktop {
+    padding: 13px 60px;
+  }
+
+  @include onLargeScreen {
+    padding: 13px 0;
+    width: 1170px;
+  }
+
+  &__nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+}

@@ -1,4 +1,22 @@
+@import './utils/variables.scss';
+
+h1, p {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
 body {
   margin: 0;
   font-family: Nunito;
+}
+
+.app {
+  width: 100%;
+  background-color: $background-color;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
 }

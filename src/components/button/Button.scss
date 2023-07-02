@@ -1,0 +1,21 @@
+@import '../../utils/variables.scss';
+
+.btn {
+  width: 100px;
+  height: 34px;
+  background-color: $primary-color;
+  border-radius: 80px;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #FFE302;
+  }
+
+  &:disabled {
+    background-color: #B4B4B4;
+    color: rgba(255, 255, 255, 0.87);
+
+    cursor: not-allowed;
+  }
+}
