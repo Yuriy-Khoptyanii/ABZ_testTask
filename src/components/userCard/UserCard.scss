@@ -1,0 +1,48 @@
+@import '../../utils/mixins';
+
+.userCard {
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-sizing: border-box;
+
+  @include onTablet {
+    width: 50%;
+    max-width: 344px;
+  }
+
+  @include onDesktop {
+    width: 33.33%;
+    max-width: 282px;
+  }
+
+  @include onLargeScreen {
+    max-width: 370px;
+  }
+
+  &__img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .truncated {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    cursor: pointer;
+  }
+}
