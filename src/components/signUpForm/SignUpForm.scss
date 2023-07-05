@@ -1,0 +1,116 @@
+@import '../../utils/mixins';
+@import '../../utils/variables.scss';
+ 
+ .signUpForm {
+  width: 328px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+
+  @include onTablet {
+    width: 704px;
+  }
+
+  @include onDesktop {
+    width: 904px;
+  }
+
+  @include onLargeScreen {
+    width: 1170px;
+  }
+ }
+
+ .form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  width: 100%;
+
+  @include onTablet {
+    width: 380px;
+  }
+
+  &__element {
+    width: 100%;
+    &__field {
+      width: 100%;
+    }
+  }
+ }
+
+.positionsTitle {
+  margin-bottom: 11px;
+}
+
+
+.uploadField {
+  display: flex;
+  align-items: stretch;
+
+  height: 54px;
+  
+  position: relative;
+
+  &__input {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    clip: rect(0 0 0 0); 
+    clip-path: inset(50%);
+    overflow: hidden;
+    white-space: nowrap; 
+    
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 15px;
+
+    border: 1px solid #000;
+    border-radius: 4px 0px 0px 4px;
+
+    cursor: pointer;
+
+    transition: color 0.3s ease-in-out,
+      border-color 0.3s ease-in-out;
+
+    &__error {
+      border-color: #d32f2f;
+    }
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 16px;
+    flex-grow: 1; 
+
+    border: 1px solid #D0CFCF;
+    border-left: none;
+    background-color: transparent;
+
+    outline: none;
+    overflow: hidden;
+
+    &__error {
+      border-color: #d32f2f;
+    }
+  }
+
+  &__error {
+    position: absolute;
+    bottom: -25px;
+    left: 16px;
+
+    color: #d32f2f;
+    font-size: 12px;
+  }
+}

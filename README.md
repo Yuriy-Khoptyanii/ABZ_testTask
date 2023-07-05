@@ -13,7 +13,7 @@
 
 ## What is this task about
 
-Create a pixel-perfect layout - working with a mockup Figma project.
+Created a pixel-perfect layout - working with a mockup Figma project.
 Implemented requests to the server to display information about users.
 Implemented work with the form and sending data from this form to the server.
 
@@ -21,4 +21,11 @@ Implemented work with the form and sending data from this form to the server.
 
 - React with hooks
 - Typescript
+- Axios
+- Formik
+- Yup
+- Classnames
 - SCSS
+- MUI
+- React-spinners
+- React-tooltip

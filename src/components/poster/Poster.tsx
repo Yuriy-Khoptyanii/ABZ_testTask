@@ -13,7 +13,7 @@ function Poster() {
           be building web interfaces with accessibility in mind. They should also be
           excited to learn, as the world of Front-End Development keeps evolving.
         </p>
-        <Button name={'Sign up'} />
+        <Button name={'Sign up'} sectionId={'form'} />
       </div>
     </div>
   );

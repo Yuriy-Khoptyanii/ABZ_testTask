@@ -1,17 +1,24 @@
 {
   "name": "vite-reactts-eslint-prettier",
   "version": "0.0.0",
+  "homepage": "https://yuriy-khoptyanii.github.io/ABZ_testTask",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore",
     "lint:format": "prettier  --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" ",
     "lint": "yarn lint:format && yarn lint:fix ",
     "type-check": "tsc"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.13.7",
     "axios": "^1.4.0",
+    "classnames": "^2.3.2",
     "formik": "^2.4.2",
     "gh-pages": "^5.0.0",
     "react": "^17.0.2",

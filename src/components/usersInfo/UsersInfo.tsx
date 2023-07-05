@@ -1,6 +1,6 @@
 import './UsersInfo.scss';
 
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import SyncLoader from 'react-spinners/ClipLoader';
 
 import { getUsers } from '../../api';
@@ -9,9 +9,10 @@ import { UserCard } from '../userCard/UserCard';
 
 type Props = {
   isUpdated: boolean;
+  setIsUpdated: Dispatch<SetStateAction<boolean>>;
 };
 
-export const UsersInfo: React.FC<Props> = ({ isUpdated }) => {
+export const UsersInfo: React.FC<Props> = ({ isUpdated, setIsUpdated }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [endPoint, setEndPoint] = useState('/users?count=6');
   const [isLastPage, setIsLastPage] = useState(false);
@@ -24,7 +25,6 @@ export const UsersInfo: React.FC<Props> = ({ isUpdated }) => {
       .then((data) => {
         if (data.links.next_url === null) {
           setIsLastPage(true);
-
           return;
         }
 
@@ -36,8 +36,23 @@ export const UsersInfo: React.FC<Props> = ({ isUpdated }) => {
       })
       .finally(() => {
         setIsLoading(false);
+        setIsUpdated(false);
       });
-  }, [isUpdated, endPoint]);
+  }, [endPoint]);
+
+  useEffect(() => {
+    if (isUpdated && endPoint !== '/users?count=6') {
+      setUsers([]);
+      setEndPoint('/users?count=6');
+    }
+
+    if (isUpdated && endPoint === '/users?count=6') {
+      setIsLoading(true);
+      getUsers(endPoint)
+        .then((data) => setUsers(data.users))
+        .finally(() => setIsLoading(false));
+    }
+  }, [isUpdated]);
 
   const handleClickShowMore = () => {
     getUsers(endPoint).then((data) => {
@@ -46,7 +61,7 @@ export const UsersInfo: React.FC<Props> = ({ isUpdated }) => {
   };
 
   return (
-    <div className="usersInfo">
+    <div className="usersInfo" id="users">
       <h1 className="usersInfo__title">Working with GET request</h1>
       <div className="usersList">
         {users.map((user) => (

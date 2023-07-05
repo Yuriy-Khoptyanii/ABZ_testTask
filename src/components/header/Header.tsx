@@ -9,8 +9,8 @@ function Header() {
       <div className="header">
         <img src={logo} alt="logo" />
         <div className="header__nav">
-          <Button name={'Users'} />
-          <Button name={'Sign up'} />
+          <Button name={'Users'} sectionId={'users'} />
+          <Button name={'Sign up'} sectionId={'form'} />
         </div>
       </div>
     </div>
