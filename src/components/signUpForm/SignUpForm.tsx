@@ -7,23 +7,39 @@ import {
   RadioGroup,
   TextField,
 } from '@mui/material';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { fetchSignUp, getPositions } from '../../api';
-import { Positions, SignUpValues } from '../../types/allTypes';
 import { validationSchema } from './Validation';
 
 type Props = {
-  setIsUpdated: Dispatch<SetStateAction<boolean>>;
+  setIsUpdated: (value: boolean) => void;
 };
 
-export const SignUpForm: React.FC<Props> = ({ setIsUpdated }) => {
+const initialFormValues: SignUpValues = {
+  name: '',
+  email: '',
+  phone: '',
+  position: 1,
+  photo: undefined,
+};
+
+const SignUpForm: React.FC<Props> = ({ setIsUpdated }) => {
   const [positions, setPositions] = useState<Positions[]>([]);
 
   useEffect(() => {
-    getPositions('/positions').then((positions) => setPositions(positions));
+    const getPositionsFromServer = async () => {
+      try {
+        const positions = await getPositions('/positions');
+        setPositions(positions);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getPositionsFromServer();
   }, []);
 
   const submitSignUp = async (
@@ -36,10 +52,14 @@ export const SignUpForm: React.FC<Props> = ({ setIsUpdated }) => {
     formData.append('email', values.email);
     formData.append('phone', values.phone);
     formData.append('position_id', String(values.position));
-    if (values.photo) {
-      formData.append('photo', values.photo);
+    values.photo && formData.append('photo', values.photo);
+
+    try {
+      await fetchSignUp('/users', formData as never as SignUpValues);
+    } catch (error) {
+      console.error(error);
     }
-    await fetchSignUp('/users', formData as never as SignUpValues);
+
     resetForm();
     setIsUpdated(true);
   };
@@ -48,13 +68,7 @@ export const SignUpForm: React.FC<Props> = ({ setIsUpdated }) => {
     <div className="signUpForm" id="form">
       <h1 className="signUpForm__title">Working with POST request</h1>
       <Formik
-        initialValues={{
-          name: '',
-          email: '',
-          phone: '',
-          position: 1,
-          photo: undefined,
-        }}
+        initialValues={initialFormValues}
         validationSchema={validationSchema}
         onSubmit={submitSignUp}
       >
@@ -110,7 +124,6 @@ export const SignUpForm: React.FC<Props> = ({ setIsUpdated }) => {
                   {positions.map((position) => (
                     <FormControlLabel
                       key={position.id}
-                      // checked={position.id === values.position}
                       value={position.id}
                       control={<Radio />}
                       label={position.name}
@@ -133,19 +146,19 @@ export const SignUpForm: React.FC<Props> = ({ setIsUpdated }) => {
                   }}
                 />
                 <span
-                  className={classNames('uploadField__btn', {
+                  className={cn('uploadField__btn', {
                     uploadField__btn__error: errors.photo && touched.photo,
                   })}
                 >
                   Upload
                 </span>
                 <input
-                  className={classNames('uploadField__label', {
+                  className={cn('uploadField__label', {
                     uploadField__label__error: errors.photo && touched.photo,
                   })}
                   placeholder="Upload your photo"
                   readOnly
-                  value={(values.photo as unknown as File)?.name || ''}
+                  value={values.photo?.name || ''}
                 />
                 <div className="uploadField__error">
                   <ErrorMessage name="photo" />
@@ -165,3 +178,5 @@ export const SignUpForm: React.FC<Props> = ({ setIsUpdated }) => {
     </div>
   );
 };
+
+export default SignUpForm;

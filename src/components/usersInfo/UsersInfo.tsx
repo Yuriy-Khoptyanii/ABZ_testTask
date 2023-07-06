@@ -1,28 +1,28 @@
 import './UsersInfo.scss';
 
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SyncLoader from 'react-spinners/ClipLoader';
 
 import { getUsers } from '../../api';
-import { User } from '../../types/allTypes';
-import { UserCard } from '../userCard/UserCard';
+import UserCard from '../UserCard';
 
 type Props = {
   isUpdated: boolean;
-  setIsUpdated: Dispatch<SetStateAction<boolean>>;
 };
 
-export const UsersInfo: React.FC<Props> = ({ isUpdated, setIsUpdated }) => {
+const UsersInfo: React.FC<Props> = ({ isUpdated }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [endPoint, setEndPoint] = useState('/users?count=6');
   const [isLastPage, setIsLastPage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
 
-    getUsers(endPoint)
-      .then((data) => {
+        const data = await getUsers(endPoint);
+
         if (data.links.next_url === null) {
           setIsLastPage(true);
           return;
@@ -33,31 +33,47 @@ export const UsersInfo: React.FC<Props> = ({ isUpdated, setIsUpdated }) => {
         } else {
           setUsers(data.users);
         }
-      })
-      .finally(() => {
-        setIsLoading(false);
-        setIsUpdated(false);
-      });
+      } catch (error) {
+        console.log(error);
+      }
+
+      setIsLoading(false);
+    };
+
+    fetchData();
   }, [endPoint]);
 
   useEffect(() => {
-    if (isUpdated && endPoint !== '/users?count=6') {
-      setUsers([]);
-      setEndPoint('/users?count=6');
-    }
+    const fetchData = async () => {
+      if (isUpdated && endPoint !== '/users?count=6') {
+        setUsers([]);
+        setEndPoint('/users?count=6');
+      }
 
-    if (isUpdated && endPoint === '/users?count=6') {
-      setIsLoading(true);
-      getUsers(endPoint)
-        .then((data) => setUsers(data.users))
-        .finally(() => setIsLoading(false));
-    }
+      if (isUpdated && endPoint === '/users?count=6') {
+        try {
+          setIsLoading(true);
+
+          const data = await getUsers(endPoint);
+          setUsers(data.users);
+        } catch (error) {
+          console.log(error);
+        }
+
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, [isUpdated]);
 
-  const handleClickShowMore = () => {
-    getUsers(endPoint).then((data) => {
+  const handleClickShowMore = async () => {
+    try {
+      const data = await getUsers(endPoint);
       setEndPoint(data.links.next_url.split('v1')[1]);
-    });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -81,3 +97,5 @@ export const UsersInfo: React.FC<Props> = ({ isUpdated, setIsUpdated }) => {
     </div>
   );
 };
+
+export default UsersInfo;

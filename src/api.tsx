@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-import { SignUpValues } from './types/allTypes';
-
 const API_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1';
 
 const api = axios.create({
@@ -9,39 +7,33 @@ const api = axios.create({
 });
 
 export const getUsers = async (endPoint: string) => {
-  const data = await api
-    .get(endPoint)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.error(error);
-      throw error;
-    });
-
-  return data;
+  try {
+    const { data } = await api.get(endPoint);
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
 export const getPositions = async (endPoint: string) => {
-  const data = await api
-    .get(endPoint)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.error(error);
-      throw error;
-    });
-
-  return data.positions;
+  try {
+    const { data } = await api.get(endPoint);
+    return data.positions;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
 export const getToken = async (endPoint: string) => {
-  const data = await api
-    .get(endPoint)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.error(error);
-      throw error;
-    });
-
-  return data.token;
+  try {
+    const { data } = await api.get(endPoint);
+    return data.token;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
 export const fetchSignUp = async (endPoint: string, user: SignUpValues) => {

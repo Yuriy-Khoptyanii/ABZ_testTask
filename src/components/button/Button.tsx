@@ -1,13 +1,13 @@
 import './Button.scss';
 
-import { useScroll } from '../../utils/hooks/useScroll';
+import { useScroll } from '../../hooks/useScroll';
 
 type Props = {
   name: string;
   sectionId: string;
 };
 
-export const Button: React.FC<Props> = ({ name, sectionId }) => {
+const Button: React.FC<Props> = ({ name, sectionId }) => {
   const scrollToSection = useScroll();
 
   return (
@@ -16,3 +16,5 @@ export const Button: React.FC<Props> = ({ name, sectionId }) => {
     </button>
   );
 };
+
+export default Button;
