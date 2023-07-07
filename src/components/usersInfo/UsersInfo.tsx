@@ -51,6 +51,7 @@ const UsersInfo: React.FC<Props> = ({ isUpdated }) => {
       if (isUpdated && endPoint !== '/users?count=6') {
         setUsers([]);
         setEndPoint('/users?count=6');
+        setIsLastPage(false);
       }
 
       if (isUpdated && endPoint === '/users?count=6') {
