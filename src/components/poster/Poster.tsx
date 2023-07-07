@@ -1,6 +1,9 @@
 import './Poster.scss';
 
+import { useScroll } from '../../hooks/useScroll';
 import Button from '../Button';
+
+const scrollToSection = useScroll();
 
 const Poster = () => (
   <div className="poster">
@@ -12,7 +15,7 @@ const Poster = () => (
         building web interfaces with accessibility in mind. They should also be excited to
         learn, as the world of Front-End Development keeps evolving.
       </p>
-      <Button name="Sign up" sectionId="form" />
+      <Button name="Sign up" type="button" onClick={() => scrollToSection('form')} />
     </div>
   </div>
 );

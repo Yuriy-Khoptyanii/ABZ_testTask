@@ -26,6 +26,12 @@
     width: 1170px;
   }
 
+  &__logo {
+    display: flex;
+    align-self: center;
+    height: 26px;
+  }
+
   &__nav {
     display: flex;
     justify-content: center;

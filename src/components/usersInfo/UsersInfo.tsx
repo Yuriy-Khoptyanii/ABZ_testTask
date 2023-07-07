@@ -2,8 +2,10 @@ import './UsersInfo.scss';
 
 import { useEffect, useState } from 'react';
 import SyncLoader from 'react-spinners/ClipLoader';
+import { toast } from 'react-toastify';
 
 import { getUsers } from '../../api';
+import Button from '../Button';
 import UserCard from '../UserCard';
 
 type Props = {
@@ -25,6 +27,7 @@ const UsersInfo: React.FC<Props> = ({ isUpdated }) => {
 
         if (data.links.next_url === null) {
           setIsLastPage(true);
+          setIsLoading(false);
           return;
         }
 
@@ -33,11 +36,11 @@ const UsersInfo: React.FC<Props> = ({ isUpdated }) => {
         } else {
           setUsers(data.users);
         }
-      } catch (error) {
-        console.log(error);
-      }
 
-      setIsLoading(false);
+        setIsLoading(false);
+      } catch {
+        toast.error('no users loaded');
+      }
     };
 
     fetchData();
@@ -56,8 +59,8 @@ const UsersInfo: React.FC<Props> = ({ isUpdated }) => {
 
           const data = await getUsers(endPoint);
           setUsers(data.users);
-        } catch (error) {
-          console.log(error);
+        } catch {
+          toast.error('no users loaded');
         }
 
         setIsLoading(false);
@@ -71,8 +74,8 @@ const UsersInfo: React.FC<Props> = ({ isUpdated }) => {
     try {
       const data = await getUsers(endPoint);
       setEndPoint(data.links.next_url.split('v1')[1]);
-    } catch (error) {
-      console.log(error);
+    } catch {
+      toast.error('no users loaded');
     }
   };
 
@@ -90,9 +93,7 @@ const UsersInfo: React.FC<Props> = ({ isUpdated }) => {
         </div>
       )}
       {!isLastPage && (
-        <button className="btn btn--users" type="button" onClick={handleClickShowMore}>
-          Show more
-        </button>
+        <Button name="Show more" type="button" onClick={handleClickShowMore} />
       )}
     </div>
   );

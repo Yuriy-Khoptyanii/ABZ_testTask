@@ -10,8 +10,11 @@ import {
 import cn from 'classnames';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
+import SyncLoader from 'react-spinners/ClipLoader';
+import { toast } from 'react-toastify';
 
 import { fetchSignUp, getPositions } from '../../api';
+import Button from '../Button';
 import { validationSchema } from './Validation';
 
 type Props = {
@@ -28,14 +31,15 @@ const initialFormValues: SignUpValues = {
 
 const SignUpForm: React.FC<Props> = ({ setIsUpdated }) => {
   const [positions, setPositions] = useState<Positions[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const getPositionsFromServer = async () => {
       try {
         const positions = await getPositions('/positions');
         setPositions(positions);
-      } catch (error) {
-        console.log(error);
+      } catch {
+        toast.error('no positions loaded');
       }
     };
 
@@ -55,16 +59,23 @@ const SignUpForm: React.FC<Props> = ({ setIsUpdated }) => {
     values.photo && formData.append('photo', values.photo);
 
     try {
+      setIsLoading(true);
+
       await fetchSignUp('/users', formData as never as SignUpValues);
-    } catch (error) {
-      console.error(error);
+    } catch {
+      toast.error('user registration failed');
+      setIsLoading(false);
+      return;
     }
 
+    setIsLoading(false);
     resetForm();
     setIsUpdated(true);
   };
 
-  return (
+  return isLoading ? (
+    <SyncLoader loading={isLoading} size={48} color="#00BDD3" />
+  ) : (
     <div className="signUpForm" id="form">
       <h1 className="signUpForm__title">Working with POST request</h1>
       <Formik
@@ -165,13 +176,11 @@ const SignUpForm: React.FC<Props> = ({ setIsUpdated }) => {
                 </div>
               </label>
             </div>
-            <button
-              className="btn"
+            <Button
+              name="Sign up"
               type="submit"
               disabled={!isValid || Object.keys(touched).length === 0}
-            >
-              Sign up
-            </button>
+            />
           </Form>
         )}
       </Formik>

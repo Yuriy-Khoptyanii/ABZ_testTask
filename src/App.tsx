@@ -1,7 +1,8 @@
 import './App.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
-// import { ToastContainer } from 'react-toastify';
 import { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 import { Header, Poster, SignUpForm, SuccessBanner, UsersInfo } from './components';
 
@@ -16,7 +17,7 @@ function App() {
         <UsersInfo isUpdated={isUpdated} />
         {isUpdated ? <SuccessBanner /> : <SignUpForm setIsUpdated={setIsUpdated} />}
       </div>
-      {/* <ToastContainer /> */}
+      <ToastContainer />
     </div>
   );
 }
